@@ -1,5 +1,5 @@
-import { EmailNotification } from '../services/email/email-notification.interface';
-import { Mailer } from '../services/email/providers/mailer.service';
+import { EmailNotification } from '../services/email-service/email-notification.interface';
+import { Mailer } from '../services/email-service/providers/mailer.service';
 import { S3FileUploadProvider } from '../services/file-upload-service/providers/s3-file-upload.provider';
 
 export function emailServiceFactory(
