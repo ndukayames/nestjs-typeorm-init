@@ -28,6 +28,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.0",
     "@types/multer": "^1.4.11",
+    "aws-sdk": "^2.1603.0",
     "axios": "^1.6.8",
     "cache-manager": "^4.1.0",
     "cache-manager-redis-yet": "^5.0.0",
