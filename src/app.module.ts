@@ -5,6 +5,7 @@ import { redisStore } from 'cache-manager-redis-yet';
 import { RedisClientOptions } from 'redis';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CacheServiceModule } from './shared/services/cache-service/cache-service.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AppService } from './app.service';
         }),
       }),
     }),
+    CacheServiceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
