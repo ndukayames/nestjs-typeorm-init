@@ -1,6 +1,7 @@
 import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { redisStore } from 'cache-manager-redis-yet';
 import { RedisClientOptions } from 'redis';
 import { AppController } from './app.controller';
@@ -12,6 +13,20 @@ import { CacheServiceModule } from './shared/services/cache-service/cache-servic
     ConfigModule.forRoot({
       cache: true,
       isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get('DB_HOST'),
+        port: +configService.get('DB_PORT'),
+        username: configService.get('DB_USERNAME'),
+        password: configService.get('DBPASSWORD'),
+        database: configService.get('DB_NAME'),
+        synchronize: true,
+        autoLoadEntities: true,
+      }),
+      inject: [ConfigService],
     }),
     CacheModule.registerAsync<RedisClientOptions>({
       imports: [ConfigModule],
