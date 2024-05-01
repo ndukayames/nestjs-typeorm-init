@@ -25,6 +25,7 @@ import { CacheServiceModule } from './shared/services/cache-service/cache-servic
         database: configService.get('DB_NAME'),
         synchronize: true,
         autoLoadEntities: true,
+        applicationName: 'ASAPU_ENGINE',
       }),
       inject: [ConfigService],
     }),
