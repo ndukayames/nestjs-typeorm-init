@@ -1,6 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { DuplicateResourceException } from './shared/exceptions/duplicate-resource.exception';
 
 @Controller()
 export class AppController {
@@ -9,10 +8,5 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
-  }
-
-  @Get('error')
-  getHelloError(): string {
-    throw new DuplicateResourceException('235445454');
   }
 }
