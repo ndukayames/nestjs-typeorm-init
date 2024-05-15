@@ -14,17 +14,15 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: WinstonModule.createLogger({
       transports: [
-        // file on daily rotation (error only)
         new transports.DailyRotateFile({
-          filename: 'logs/app-name-errors-log-%DATE%.log',
+          filename: 'logs/cash-service-errors-log-%DATE%.log',
           datePattern: 'YYYY-MM-DD',
           zippedArchive: false,
           maxSize: '20m',
           level: 'error',
         }),
-        // same for all levels
         new transports.DailyRotateFile({
-          filename: `logs/app-name-combined-log-%DATE%.log`,
+          filename: `logs/cashtella-service-combined-log-%DATE%.log`,
           format: format.combine(format.timestamp(), format.json()),
           datePattern: 'YYYY-MM-DD',
           zippedArchive: false,
