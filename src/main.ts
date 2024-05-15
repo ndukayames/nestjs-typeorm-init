@@ -16,7 +16,7 @@ async function bootstrap() {
       transports: [
         // file on daily rotation (error only)
         new transports.DailyRotateFile({
-          filename: 'logs/frontters-dashboard-errors-log-%DATE%.log',
+          filename: 'logs/app-name-errors-log-%DATE%.log',
           datePattern: 'YYYY-MM-DD',
           zippedArchive: false,
           maxSize: '20m',
@@ -24,7 +24,7 @@ async function bootstrap() {
         }),
         // same for all levels
         new transports.DailyRotateFile({
-          filename: `logs/frontters-dashboard-combined-log-%DATE%.log`,
+          filename: `logs/app-name-combined-log-%DATE%.log`,
           format: format.combine(format.timestamp(), format.json()),
           datePattern: 'YYYY-MM-DD',
           zippedArchive: false,

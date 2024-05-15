@@ -26,7 +26,7 @@ import { RestServiceModule } from './shared/services/rest-service/rest-service.m
         database: configService.get('DB_NAME'),
         synchronize: true,
         autoLoadEntities: true,
-        applicationName: 'ASAPU_ENGINE',
+        applicationName: 'app-name',
       }),
       inject: [ConfigService],
     }),

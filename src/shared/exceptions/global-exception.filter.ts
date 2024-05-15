@@ -9,6 +9,7 @@ export class GlobalExceptionHandler implements ExceptionFilter {
     this.logger.debug(exception);
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
+
     const status =
       (exception.response && exception.response.status) ||
       exception.response?.statusCode ||
