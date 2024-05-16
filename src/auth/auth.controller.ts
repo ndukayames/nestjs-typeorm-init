@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AccountType } from 'src/users/entity/user.entity';
 import { AuthService } from './auth.service';
@@ -11,6 +11,17 @@ export class AuthController {
   createPersonalAccount(@Body() dto: CreateUserDto) {
     dto.userType = AccountType.PERSONAL;
     dto.businessName = null;
-    return this.authService.createPersonalAccount(dto);
+    return this.authService.createAccount(dto);
+  }
+
+  @Post('business/signup')
+  createBusinessAccount(@Body() dto: CreateUserDto) {
+    dto.userType = AccountType.BUSINESS;
+    if (!dto.businessName) {
+      throw new BadRequestException(
+        'Business name is required for business accounts',
+      );
+    }
+    return this.authService.createAccount(dto);
   }
 }

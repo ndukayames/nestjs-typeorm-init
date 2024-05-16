@@ -31,7 +31,7 @@ export class RequesInterceptor implements NestInterceptor {
       params: req.params,
       statusCode: statusCode || 500,
       headers,
-      body: this.maskSensitiveData(body),
+      body: this.maskSensitiveData({ ...body }),
     };
 
     this.logger.log(request);

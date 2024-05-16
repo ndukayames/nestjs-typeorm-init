@@ -17,7 +17,7 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
-  async createPersonalAccount(dto: CreateUserDto) {
+  async createAccount(dto: CreateUserDto) {
     const existingUser = await this.userService.findUserByEmail(dto.email);
 
     if (existingUser)
@@ -49,6 +49,6 @@ export class AuthService {
         this.logger.error('Error sending email', error);
       });
 
-    return authTokens;
+    return 'Signup successful, please check your email for verification link';
   }
 }

@@ -19,6 +19,7 @@ export class UsersService {
     newUser.phoneNumber = createUserDto.phoneNumber;
     newUser.password = createUserDto.password;
     newUser.accountType = createUserDto.userType;
+    newUser.businessName = createUserDto.businessName;
 
     return await this.usersRepository.save(newUser);
   }
