@@ -6,7 +6,15 @@ export enum TokenType {
   ACCESS,
   REFRESH,
   PASWSWORD_RESET,
+  EMAIL_VERIFICATION,
 }
+
+export interface TokenPayload {
+  sub: number;
+  userRole: AccountType;
+  tokenType: TokenType;
+}
+
 @Injectable()
 export class TokenService {
   constructor(private jwtService: JwtService) {}
@@ -39,6 +47,15 @@ export class TokenService {
     };
   }
 
+  async getEmailVerificationToken(user: User) {
+    const token = await this.generateToken(
+      user,
+      TokenType.EMAIL_VERIFICATION,
+      user.accountType,
+    );
+    return token;
+  }
+
   async getPasswordResetToken(user: User) {
     const token = await this.generateToken(
       user,
@@ -52,5 +69,15 @@ export class TokenService {
   async decodeToken(token: string) {
     const decoded = this.jwtService.decode(token);
     return decoded;
+  }
+
+  async verifyToken(token: string, tokenType: TokenType) {
+    try {
+      const decoded = this.jwtService.verify<TokenPayload>(token);
+      if (decoded.tokenType !== tokenType) return false;
+      return decoded;
+    } catch (error) {
+      return false;
+    }
   }
 }

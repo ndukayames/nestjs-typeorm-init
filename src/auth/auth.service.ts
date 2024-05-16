@@ -1,11 +1,16 @@
-import { ConflictException, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { EmailService } from 'src/shared/services/email-service/email.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
-import { TokenService } from './token.service';
+import { TokenService, TokenType } from './token.service';
 
 @Injectable()
 export class AuthService {
@@ -29,11 +34,13 @@ export class AuthService {
 
     const newUser = await this.userService.create(dto);
 
-    const authTokens = await this.tokenService.getAuthTokens(newUser);
+    const authTokens = await this.tokenService.getEmailVerificationToken(
+      newUser,
+    );
 
     const verificationUrl = ` ${this.configService.get(
       'FRONTEND_URL',
-    )}/verify-email?token=${authTokens.access_token}`;
+    )}/profile-activation/${authTokens}`;
 
     this.emailService
       .send({
@@ -50,5 +57,37 @@ export class AuthService {
       });
 
     return 'Signup successful, please check your email for verification link';
+  }
+
+  async verifyEmail(token: string) {
+    const isTokenValid = await this.tokenService.verifyToken(
+      token,
+      TokenType.EMAIL_VERIFICATION,
+    );
+
+    if (!isTokenValid) {
+      throw new BadRequestException(
+        'Email verification failed, please try again',
+      );
+    }
+
+    const user = await this.userService.findUserById(isTokenValid.sub);
+
+    if (!user) {
+      throw new BadRequestException(
+        'Email verification failed, user account not found',
+      );
+    }
+
+    if (user.isEmailVerified) {
+      return 'Email already verified';
+    }
+
+    user.isEmailVerified = true;
+    user.isActive = true;
+
+    await this.userService.save(user);
+
+    return 'Email verified successfully';
   }
 }

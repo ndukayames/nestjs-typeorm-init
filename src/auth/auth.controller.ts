@@ -1,4 +1,11 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AccountType } from 'src/users/entity/user.entity';
 import { AuthService } from './auth.service';
@@ -23,5 +30,10 @@ export class AuthController {
       );
     }
     return this.authService.createAccount(dto);
+  }
+
+  @Get('verify-email/:token')
+  verifyEmail(@Param('token') token: string) {
+    return this.authService.verifyEmail(token);
   }
 }

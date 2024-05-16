@@ -24,11 +24,15 @@ export class UsersService {
     return await this.usersRepository.save(newUser);
   }
 
-  async findUserById(sub: string) {
-    return new User();
+  async findUserById(sub: number) {
+    return await this.usersRepository.findOneBy({ id: sub });
   }
 
   async findUserByEmail(email: string) {
     return await this.usersRepository.findOneBy({ email });
+  }
+
+  async save(user: User) {
+    return await this.usersRepository.save(user);
   }
 }
