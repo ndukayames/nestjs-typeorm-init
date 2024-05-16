@@ -20,11 +20,10 @@ export class GlobalExceptionHandler implements ExceptionFilter {
       exception.message ||
       'Internal server error';
 
-    const errorResponse: ApiResponseDto<any> = {
-      success: false,
-      statusCode: status || 500,
-      result: message,
-    };
+    const errorResponse: ApiResponseDto<any> = new ApiResponseDto()
+      .withSuccess(false)
+      .withStatusCode(status)
+      .withResult(message);
 
     response.status(status).json(errorResponse);
   }

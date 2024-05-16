@@ -3,9 +3,18 @@ export class ApiResponseDto<T> {
   result: T;
   statusCode: number;
 
-  constructor(success: boolean, result: T, statusCode: number) {
-    this.success = success;
-    this.result = result;
-    this.statusCode = statusCode;
+  withSuccess(value: boolean) {
+    this.success = value;
+    return this;
+  }
+
+  withResult(data: T) {
+    this.result = data;
+    return this;
+  }
+
+  withStatusCode(code: number) {
+    this.statusCode = code;
+    return this;
   }
 }

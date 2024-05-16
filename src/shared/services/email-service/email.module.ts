@@ -2,6 +2,7 @@ import { Global, Module } from '@nestjs/common';
 
 import { ConfigService } from '@nestjs/config';
 import { emailServiceFactory } from 'src/shared/utils/factory.provider';
+import { EmailService } from './email.service';
 
 @Global()
 @Module({
@@ -14,7 +15,8 @@ import { emailServiceFactory } from 'src/shared/utils/factory.provider';
       },
       inject: [ConfigService],
     },
+    EmailService,
   ],
-  exports: ['EMAIL_PROVIDER'],
+  exports: [EmailService],
 })
 export class EmailModule {}
